@@ -1,0 +1,24 @@
+name: Deployment
+
+on:
+  pull_request:
+    branches: ["*"]
+  push:
+    branches: ["main"]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+       - name: Deploy Backend to Render
+         env:
+           deploy_back_url: ${{ secrets.RENDER_DEPLOY_BACK_HOOK_URL }}
+         run: |
+           curl "$deploy_back_url"
+
+       - name: Deploy Frontend to Render
+         env:
+           deploy_front_url: ${{ secrets.RENDER_DEPLOY_FRONT_HOOK_URL }}
+         run: |
+           curl "$deploy_front_url"
